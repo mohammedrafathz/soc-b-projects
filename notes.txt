@@ -1,0 +1,11 @@
+1. Axios vs fetch
+
+2. Battery api 
+
+3. Github users api
+
+4. Todo app
+
+5. Movie List app using bootstrap
+
+6. Github pages
