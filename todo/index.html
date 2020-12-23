@@ -4,8 +4,30 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-      
+    <div class="container">
+      <h1>My First Todo List App</h1>
+      <div class="card">
+        <ul class="todo-list" id="todoList">
+          <li>
+            <input type="checkbox" name="milk" />
+           <span id="liMilk">Milk</span> 
+          </li>
+          <li>
+            <input type="checkbox" name="milk" id="liEgg" />
+            <span >Egg</span> 
+          </li>
+          <li><input type="checkbox" name="milk" />
+           <span id="liBread">Bread</span> </li>
+        </ul>
+        <form id="todoForm" action="#">
+          <input type="text" name="todo" id="todoInput" />
+          <button id="btnSubmit">Submit</button>
+        </form>
+      </div>
+    </div>
+    <script src="./script.js"></script>
   </body>
 </html>
