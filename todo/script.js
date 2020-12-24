@@ -2,10 +2,10 @@ const todoForm = document.getElementById("todoForm");
 const todoList = document.getElementById("todoList");
 
 const todoListItems = [
-  { todo: "Milk", isChecked: false },
-  { todo: "Eggs", isChecked: false },
-  { todo: "Bread", isChecked: false },
-  { todo: "Veggies", isChecked: false },
+  { id: 1, todo: "Milk", isChecked: false },
+  { id: 2, todo: "Eggs", isChecked: false },
+  { id: 3, todo: "Bread", isChecked: true },
+  { id: 4, todo: "Veggies", isChecked: true },
 ];
 
 todoForm.onsubmit = function (event) {
@@ -13,11 +13,13 @@ todoForm.onsubmit = function (event) {
 
   const data = new FormData(todoForm);
   let item = {
+    id: todoListItems.length + 1,
     todo: data.get("todo"),
     isChecked: false,
   };
   todoListItems.push(item);
   todoList.innerHTML = "";
+  // debugger
   initTodo();
 
   todoForm.reset();
@@ -27,23 +29,41 @@ function initTodo() {
   for (let i = 0; i < todoListItems.length; i++) {
     let newLi = document.createElement("li");
 
-    newLi.innerHTML = 
-    `<div class="todo-list-item">
-    <input type="checkbox" name="milk" ${todoListItems[i].isChecked ? "checked" : ""} id="todo_${todoListItems[i].todo}"  /> 
-                      <span>${todoListItems[i].todo}</span></div>`;
+    newLi.innerHTML = `<div class="todo-list-item">
+    <input type="checkbox" name="milk" 
+    ${todoListItems[i].isChecked ? "checked" : ""} 
+    id="${todoListItems[i].id}"  
+    /> 
+    <span class="${todoListItems[i].isChecked ? "strike-off" : ""} ">
+    ${todoListItems[i].todo}</span></div>`;
     todoList.appendChild(newLi);
 
     document
-      .getElementById(`todo_${todoListItems[i].todo}`)
+      .getElementById(`${todoListItems[i].id}`)
       .addEventListener("click", function (e) {
         let selectedItem = document.getElementById(e.target.id);
+
         if (selectedItem.checked) {
+          let value = +e.target.id;
+          for (let j = 0; j < todoListItems.length; j++) {
+            if (value === todoListItems[j].id) {
+              todoListItems[j]["isChecked"] = true;
+            }
+          }
+          
           selectedItem.nextElementSibling.classList.add("strike-off");
         } else {
+          for (let j = 0; j < todoListItems.length; j++) {
+            if (value === todoListItems[j].id) {
+              todoListItems[j]["isChecked"] = false;
+            }
+          }
+
           selectedItem.nextElementSibling.classList.remove("strike-off");
         }
       });
-  }
+
+    }
 }
 
 initTodo();
