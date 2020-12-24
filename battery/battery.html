@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project - Battery API</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+      integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
+      crossorigin="anonymous"
+    />
+
+    <style>
+      body {
+        font-family: "Courier New", Courier, monospace;
+        background-color: black;
+      }
+
+      .container {
+        text-align: center;
+        margin-top: 200px;
+        color: white;
+      }
+
+      h1 {
+        margin-bottom: 50px;
+      }
+
+      #batteryLevel {
+        font-size: 48px;
+        font-weight: 900;
+        margin-bottom: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>The Battery API</h1>
+
+      <div id="batteryIcon">
+        <i
+          class="fa fa-5x fa-rotate-270 fa-battery-empty"
+          aria-hidden="true"
+        ></i>
+        <h3 id="batteryLevel"></h3>
+      </div>
+      <br />
+      <h3>Status: <span id="batteryStatus"></span></h3>
+      <h3>Charging Time: <span id="batteryChargeTime"></span></h3>
+      <h3>Discharging Time: <span id="batteryDischargeTime"></span></h3>
+    </div>
+  </body>
+  <script>
+    const batteryIcon = document.getElementById("batteryIcon");
+    const batteryStatus = document.getElementById("batteryStatus");
+    const batteryChargeTime = document.getElementById("batteryChargeTime");
+    const batteryDischargeTime = document.getElementById(
+      "batteryDischargeTime"
+    );
+
+    function updateChargingChange(status) {
+      if (status) {
+        batteryStatus.innerText = "Charging";
+        // setInterval(function () {
+
+        // })
+      } else {
+        batteryStatus.innerText = "Not Charging";
+      }
+    }
+
+    function updateChargingTimeChange(duration) {
+      batteryChargeTime.innerText = duration / 60 + " Minutes";
+    }
+
+    function updateDischargingTimeChange(duration) {
+      batteryDischargeTime.innerText = duration / 60 + " Minutes";
+    }
+
+    function levelChange(level) {
+      console.log(level);
+      if (level <= 10) {
+        batteryIcon.innerHTML =
+          '<i class="fa fa-5x fa-rotate-270 fa-battery-empty" aria-hidden="true"></i> <h3 id="batteryLevel">' +
+          level +
+          "%</h3>";
+      } else if (level <= 25) {
+        batteryIcon.innerHTML =
+          '<i class="fa fa-5x fa-rotate-270 fa-battery-quarter" aria-hidden="true"></i><h3 id="batteryLevel">' +
+          level +
+          "%</h3>";
+      } else if (level <= 50) {
+        batteryIcon.innerHTML =
+          '<i class="fa fa-5x fa-rotate-270 fa-battery-half" aria-hidden="true"></i><h3 id="batteryLevel">' +
+          level +
+          "%</h3>";
+      } else if (level <= 75) {
+        batteryIcon.innerHTML =
+          '<i class="fa fa-5x fa-rotate-270 fa-battery-three-quarters" aria-hidden="true"></i><h3 id="batteryLevel">' +
+          level +
+          "%</h3>";
+      } else {
+        batteryIcon.innerHTML =
+          '<i class="fa fa-5x fa-rotate-270 fa-battery-full" aria-hidden="true"></i><h3 id="batteryLevel">' +
+          level +
+          "%</h3>";
+      }
+    }
+
+    const success = function (battery) {
+      console.log(battery);
+
+      battery.addEventListener("chargingchange", function () {
+        updateChargingChange(battery.charging);
+      });
+
+      battery.addEventListener("chargingtimechange", function () {
+        updateChargingTimeChange(battery.chargingTime);
+      });
+
+      battery.addEventListener("levelchange", function () {
+        levelChange(battery.level * 100);
+      });
+
+      battery.addEventListener("dischargingtimechange", function () {
+        updateChargingTimeChange(battery.dischargingTime);
+      });
+
+      //console.log(battery);
+
+      updateChargingChange(battery.charging);
+      updateChargingTimeChange(battery.chargingTime);
+      updateDischargingTimeChange(battery.dischargingTime);
+      levelChange(battery.level * 100);
+    };
+
+    navigator
+      .getBattery()
+      .then(success)
+      .catch(function (error) {
+        console.log(error);
+      });
+      
+  </script>
+</html>
