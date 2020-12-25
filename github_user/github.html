@@ -1,177 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Project - GitHub User API</title>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
-      integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
-      crossorigin="anonymous"
-    />
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <style>
-      body {
-        background-color: #eeeeee;
-      }
+        body {
+            background-color: #eeeeee;
+        }
     </style>
-  </head>
+</head>
 
-  <body>
+<body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#">
-        <img src="./github.png" alt="logo" width="50" />
-      </a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
+        <a class="navbar-brand" href="#">
+            <img src="./github.png" alt="Logo" width="50">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <form class="form-inline my-2 my-lg-0 ml-auto" id="searchForm">
-          <input
-            class="form-control mr-sm-2"
-            type="search"
-            name="search"
-            placeholder="Search"
-            aria-label="Search"
-          />
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-            Search
-          </button>
-        </form>
-      </div>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <form class="form-inline my-2 my-lg-0 ml-auto" id="searchForm">
+                <input class="form-control mr-sm-2" type="search" name="searchInput" placeholder="Search"
+                    aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
     </nav>
-    <main class="container mt-5">
-      <h2 class="text-center" id="placeholderText">
-        Please type GitHub user name in above form to view profile
-      </h2>
-      <div class="row" id="userProfile" style="visibility: hidden">
-        <div class="col-sm-4">
-          <img
-            src="./placeholder.png"
-            alt="User Avatar"
-            id="avatar"
-            class="img-fluid img-thumbnail mb-2"
-          />
+    <main class="container mb-5">
+        <div class="progress" id="spinner" style="visibility: hidden;">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75"
+                aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+        </div>
+        <h2 id="placeholderText" class="text-center">Please type GitHub user name in above form to view profile</h2>
+        <div class="row" id="userData" style="visibility: hidden;">
+            <div class="col-sm-4">
+                <img src="./placeholder.png" id="profileImage" class="img-fluid img-thumbnail" alt="User Profile">
+                <h1 id="username">N/A</h1>
+                <p id="handle">N/A</p>
+            </div>
+            <div class="col-sm-8">
+                <div class="list-group">
+                    <div class="list-group-item">
+                        Bio:
+                        <br>
+                        <p id="bio">N/A</p>
+                    </div>
 
-          <h4 id="username">Mohammed Rafathullah</h4>
-          <p id="handle">mohammedrafathz</p>
+                    <div class="list-group-item">
+                        Blog:
+                        <br>
+                        <a href="#" id="blog" target="_blank">N/A</a>
+                    </div>
+
+                    <div class="list-group-item">
+                        Location:
+                        <br>
+                        <p id="userLocation">N/A</p>
+                    </div>
+                    <div class="list-group-item">
+                        Public Gists:
+                        <br>
+                        <p id="gists">N/A</p>
+
+                    </div>
+                    <div class="list-group-item">
+                        Public Repos:
+                        <br>
+                        <p id="repos">N/A</p>
+                    </div>
+                    <div class="list-group-item">
+                        Followers:
+                        <br>
+                        <p id="followers">N/A</p>
+                    </div>
+                    <div class="list-group-item">
+                        Following:
+                        <br>
+                        <p id="following">N/A</p>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-sm-8">
-          <div class="list-group">
-            <div class="list-group-item">
-              Bio:
-              <p class="m-0" id="bio">
-                Self taught Full Stack Developer, carrying good knowledge across
-                multiple tech stacks. I speak, write and understand Python, JS,
-                C# and sometimes Java.
-              </p>
-            </div>
-            <div class="list-group-item">
-              Blog:
-              <p class="m-0">
-                <a href="#" id="blog" target="_blank">https://rafath.in</a>
-              </p>
-            </div>
-            <div class="list-group-item">
-              Location:
-              <p class="m-0" id="userLocation">Hyderabad</p>
-            </div>
-            <div class="list-group-item">
-              Public Repos:
-              <p class="m-0" id="repos">21</p>
-            </div>
-            <div class="list-group-item">
-              Public Gists:
-              <p class="m-0" id="gists">5</p>
-            </div>
-            <div class="list-group-item">
-              Followers:
-              <p class="m-0" id="followers">6</p>
-            </div>
-            <div class="list-group-item">
-              Following:
-              <p class="m-0" id="following">21</p>
-            </div>
-          </div>
-        </div>
-      </div>
     </main>
-  </body>
-  <script
-    src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+</body>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
     integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-    crossorigin="anonymous"
-  ></script>
-  <script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
-    crossorigin="anonymous"
-  ></script>
-  <script>
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"
+    integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s"
+    crossorigin="anonymous"></script>
+
+<script>
     const searchForm = document.getElementById("searchForm");
-    const placeholderText = document.getElementById("placeholderText");
-    const userProfile = document.getElementById("userProfile");
-    const avatar = document.getElementById("avatar");
     const username = document.getElementById("username");
-    const handle = document.getElementById("handle");
     const bio = document.getElementById("bio");
-    const blog = document.getElementById("blog");
+    const handle = document.getElementById("handle");
     const userLocation = document.getElementById("userLocation");
-    const repos = document.getElementById("repos");
-    const gists = document.getElementById("gists");
-    const followers = document.getElementById("followers");
     const following = document.getElementById("following");
+    const followers = document.getElementById("followers");
+    const gists = document.getElementById("gists");
+    const repos = document.getElementById("repos");
+    const blog = document.getElementById("blog");
+    const profileImage = document.getElementById("profileImage");
+    const placeholderText = document.getElementById("placeholderText");
+    const userData = document.getElementById("userData");
+    const spinner = document.getElementById("spinner");
 
     searchForm.onsubmit = function (e) {
-      e.preventDefault();
-      placeholderText.innerText = "Loading...";
-      const data = new FormData(searchForm);
-      const search = data.get("search");
+        e.preventDefault();
+        const fData = new FormData(searchForm);
 
-      fetch("https://api.github.com/users/" + search).then(function (response) {
-        // console.log(resp);
-        response.json().then(function (userData) {
-          placeholderText.innerText =
-            "Please type GitHub user name in above form to view profile";
-          placeholderText.style.display = "none";
-          userProfile.style.visibility = "visible";
+        spinner.style.visibility = "visible"
+        fetch("https://api.github.com/users/" + fData.get("searchInput"))
+            .then(function (response) {
 
-          avatar.src = userData.avatar_url
-            ? userData.avatar_url
-            : "./placeholder.png";
-          username.innerText = userData.name ? userData.name : "N/A";
-          handle.innerText = userData.login ? userData.login : "N/A";
-          bio.innerText = userData.bio ? userData.bio : "N/A";
-          blog.innerText = userData.blog ? userData.blog : "N/A";
-          blog.href = userData.blog ? userData.blog : "#";
-          userLocation.innerText = userData.location
-            ? userData.location
-            : "N/A";
-          repos.innerText = userData.public_repos
-            ? userData.public_repos
-            : "N/A";
-          gists.innerText = userData.public_gists
-            ? userData.public_gists
-            : "N/A";
-          followers.innerText = userData.followers ? userData.followers : "N/A";
-          following.innerText = userData.following ? userData.following : "N/A";
-        });
-        // .catch(function (error) {
-        //     console.log(error);
-        // })
-      });
-      // .catch(function (error) {
-      //     console.log(error);
-      // })
-    };
-  </script>
+                response.json()
+                    .then(function (data) {
+                        spinner.style.visibility = "hidden"
+                        placeholderText.style.visibility = "hidden";
+                        userData.style.visibility = "visible"
+                        username.innerText = data.name ? data.name : "N/A"
+                        bio.innerText = data.bio ? data.bio : "N/A"
+                        handle.innerText = data.login ? data.login : "N/A"
+                        userLocation.innerText = data.location ? data.location : "N/A"
+                        following.innerText = data.following ? data.following : "N/A"
+                        followers.innerText = data.followers ? data.followers : "N/A"
+                        gists.innerText = data.public_gists ? data.public_gists : "N/A"
+                        repos.innerText = data.public_repos ? data.public_repos : "N/A"
+                        profileImage.src = data.avatar_url ? data.avatar_url : "N/A"
+                        blog.innerText = data.blog ? data.blog : "N/A"
+                        blog.href = data.blog ? data.blog : "N/A"
+                    })
+                    .catch(function (error) {
+                        spinner.style.visibility = "hidden"
+                        console.log(error);
+                    })
+
+            })
+            .catch(function (error) {
+                spinner.style.visibility = "hidden"
+                console.log(error);
+            })
+    }
+</script>
+
 </html>
